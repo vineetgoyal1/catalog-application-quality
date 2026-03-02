@@ -82,9 +82,15 @@ export async function fetchAllApplications(
     hasNextPage = data.pageInfo?.hasNextPage || false;
     cursor = data.pageInfo?.endCursor || null;
 
-    // Call progress callback
+    // Call progress callback (deferred to not block pagination)
     if (onProgress) {
-      onProgress(page, data.totalCount, allApplications, hasNextPage);
+      try {
+        setTimeout(() => {
+          onProgress(page, data.totalCount, [...allApplications], hasNextPage);
+        }, 0);
+      } catch (error) {
+        console.error('Progress callback error:', error);
+      }
     }
   }
 

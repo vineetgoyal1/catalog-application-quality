@@ -17,7 +17,6 @@ function App() {
   const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
   const [isSiidModalOpen, setIsSiidModalOpen] = useState(false);
   const [isProviderModalOpen, setIsProviderModalOpen] = useState(false);
-  const [overviewModalLevel, setOverviewModalLevel] = useState<'perfect' | 'good' | 'fair' | 'needsWork' | null>(null);
   const [workspaceHost, setWorkspaceHost] = useState<string>('');
 
   useEffect(() => {
@@ -96,10 +95,10 @@ function App() {
           fair={qualityMetrics.overview.fair}
           needsWork={qualityMetrics.overview.needsWork}
           totalCount={qualityMetrics.totalCount}
-          onClickPerfect={() => setOverviewModalLevel('perfect')}
-          onClickGood={() => setOverviewModalLevel('good')}
-          onClickFair={() => setOverviewModalLevel('fair')}
-          onClickNeedsWork={() => setOverviewModalLevel('needsWork')}
+          onClickPerfect={() => {}}
+          onClickGood={() => {}}
+          onClickFair={() => {}}
+          onClickNeedsWork={() => {}}
           isLoading={isDataLoading}
           loadingProgress={loadingProgress}
         />
