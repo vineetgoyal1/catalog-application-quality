@@ -72,7 +72,7 @@ export async function fetchAllApplications(
       }))
       .filter((app: any) =>
         app.collectionStatus === 'readyForConsumption' &&
-        app.deprecated !== 'yes'
+        app.deprecated !== 'Yes'
       )
       .map(({ collectionStatus, deprecated, ...app }: any) => app); // Remove filter fields from final object
 
