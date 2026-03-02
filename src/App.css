@@ -1,0 +1,131 @@
+/* Root app container */
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+  font-family: var(--lx-font-family, 'SAP 72', 'Helvetica Neue', Arial, sans-serif);
+  overflow-y: auto;
+}
+
+/* Loading state */
+.app--loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+  text-align: center;
+  font-size: 18px;
+  color: #6b7280;
+}
+
+.loading-text {
+  color: var(--lx-gray-50, #6b7280);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+/* Error state */
+.error {
+  padding: 48px;
+  text-align: center;
+  font-size: 18px;
+  color: #dc2626;
+}
+
+/* Header */
+.app__header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 3.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 3.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.app__title,
+.header h1 {
+  margin: 0 0 0.75rem 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.025em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app__subtitle,
+.header-subtitle {
+  margin: 0;
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 400;
+  letter-spacing: 0.015em;
+}
+
+.loading-indicator {
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+  font-size: 14px;
+  animation: pulse 2s ease-in-out infinite;
+  margin-top: 8px;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Main content */
+.app__main {
+  padding: 3rem 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Quality Metrics Grid */
+.quality-cards-container,
+.quality-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 1400px) {
+  .quality-cards-container,
+  .quality-metrics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .quality-cards-container,
+  .quality-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}

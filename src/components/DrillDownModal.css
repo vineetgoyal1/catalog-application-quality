@@ -1,0 +1,91 @@
+.drilldown-search {
+  margin-bottom: 16px;
+}
+
+.drilldown-search-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.drilldown-search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.drilldown-count {
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.drilldown-table-container {
+  overflow-x: auto;
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.drilldown-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.drilldown-table thead {
+  position: sticky;
+  top: 0;
+  background: #f9fafb;
+  z-index: 10;
+}
+
+.drilldown-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.drilldown-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background 0.15s;
+}
+
+.drilldown-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.drilldown-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.drilldown-table td {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #111827;
+}
+
+.app-link {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.app-link:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.word-count-cell {
+  color: #6b7280;
+  font-size: 13px;
+  width: 150px;
+}
