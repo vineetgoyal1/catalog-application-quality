@@ -74,9 +74,18 @@ export async function fetchAllApplications(
 }`;
 
     const response = await lx.executeGraphQL(query);
-    const data = response.allFactSheets;
 
-    if (!data || !data.edges) {
+    // Handle both direct response and nested data structure
+    const data = response.data?.allFactSheets || response.allFactSheets;
+
+    // Log for debugging in production
+    if (!data) {
+      console.error('No data returned from GraphQL:', response);
+      throw new Error('GraphQL response missing data');
+    }
+
+    if (!data.edges) {
+      console.warn('No edges in GraphQL response:', data);
       break;
     }
 
@@ -114,6 +123,9 @@ export async function fetchAllApplications(
     // Update pagination
     hasNextPage = data.pageInfo?.hasNextPage || false;
     cursor = data.pageInfo?.endCursor || null;
+
+    // Log pagination state
+    console.log(`Page ${page}: Loaded ${applications.length} apps, Total so far: ${allApplications.length}, HasMore: ${hasNextPage}`);
 
     // Call progress callback
     if (onProgress) {
