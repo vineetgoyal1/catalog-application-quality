@@ -54,7 +54,8 @@
 
 .quality-stat--clickable:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  background-color: #fef9c3;
 }
 
 .quality-stat__icon {
@@ -81,6 +82,9 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 0.25rem;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .quality-stat__value {
@@ -130,8 +134,9 @@
 }
 
 .quality-progress-bar__segment--warning:hover {
-  filter: brightness(1.1);
+  filter: brightness(1.15);
   box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.3);
+  transform: scaleY(1.05);
 }
 
 .quality-progress-bar__label {

@@ -9,7 +9,7 @@ interface DrillDownModalProps {
   applications: ApplicationQuality[];
   title: string;
   subtitle: string;
-  mode: 'description' | 'siid' | 'provider';
+  mode: 'description' | 'siid' | 'provider' | 'webpageUrl' | 'applicationSubType' | 'pricingType' | 'hostingType' | 'itComponent' | 'itComponentActiveDate';
   workspaceHost?: string;
 }
 
@@ -62,6 +62,12 @@ export function DrillDownModal({
                   <th>Provider External ID</th>
                 </>
               )}
+              {mode === 'webpageUrl' && <th>Webpage URL Status</th>}
+              {mode === 'applicationSubType' && <th>Category</th>}
+              {mode === 'pricingType' && <th>Pricing Type</th>}
+              {mode === 'hostingType' && <th>Hosting Type</th>}
+              {mode === 'itComponent' && <th>IT Component Status</th>}
+              {mode === 'itComponentActiveDate' && <th>Active Date Status</th>}
             </tr>
           </thead>
           <tbody>
@@ -98,6 +104,58 @@ export function DrillDownModal({
                       {app.providerExternalId ? app.providerExternalId : <span style={{ color: '#dc2626' }}>Missing</span>}
                     </td>
                   </>
+                )}
+                {mode === 'webpageUrl' && (
+                  <td className="word-count-cell">
+                    {app.webpageUrl ? (
+                      <a href={app.webpageUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb' }}>
+                        {app.webpageUrl}
+                      </a>
+                    ) : (
+                      <span style={{ color: '#dc2626' }}>Missing or Invalid</span>
+                    )}
+                  </td>
+                )}
+                {mode === 'applicationSubType' && (
+                  <td className="word-count-cell">
+                    {app.category ? (
+                      <span>{app.category}</span>
+                    ) : (
+                      <span style={{ color: '#dc2626' }}>Missing</span>
+                    )}
+                  </td>
+                )}
+                {mode === 'pricingType' && (
+                  <td className="word-count-cell">
+                    {app.pricingType ? (
+                      <span>{app.pricingType}</span>
+                    ) : (
+                      <span style={{ color: '#dc2626' }}>Missing</span>
+                    )}
+                  </td>
+                )}
+                {mode === 'hostingType' && (
+                  <td className="word-count-cell">
+                    {app.hostingType ? (
+                      <span>{app.hostingType}</span>
+                    ) : (
+                      <span style={{ color: '#dc2626' }}>Missing</span>
+                    )}
+                  </td>
+                )}
+                {mode === 'itComponent' && (
+                  <td className="word-count-cell">
+                    {app.relITComponentToApplication && app.relITComponentToApplication.length > 0 ? (
+                      <span style={{ color: '#dc2626' }}>All IT Components deprecated or not ready</span>
+                    ) : (
+                      <span style={{ color: '#dc2626' }}>No IT Component relation</span>
+                    )}
+                  </td>
+                )}
+                {mode === 'itComponentActiveDate' && (
+                  <td className="word-count-cell">
+                    <span style={{ color: '#dc2626' }}>Valid IT Components missing active dates</span>
+                  </td>
                 )}
               </tr>
             ))}

@@ -124,7 +124,7 @@ export function OverviewCards({
             <div className="overview-legend-value">
               {perfect.toLocaleString()} <span className="overview-legend-percentage">({perfectPct.toFixed(1)}%)</span>
             </div>
-            <div className="overview-legend-description">All 3 factors met</div>
+            <div className="overview-legend-description">All 9 factors met</div>
           </div>
         </div>
 
@@ -172,7 +172,7 @@ export function OverviewCards({
             <div className="overview-legend-value">
               {needsWork.toLocaleString()} <span className="overview-legend-percentage">({needsWorkPct.toFixed(1)}%)</span>
             </div>
-            <div className="overview-legend-description">Lacking 3 factors</div>
+            <div className="overview-legend-description">Lacking 3-9 factors</div>
           </div>
         </div>
       </div>
