@@ -85,9 +85,11 @@ export function QualityProgressBar({
           role="button"
           tabIndex={0}
         >
-          <span className="quality-progress-bar__label">
-            {needsImprovementPercentage.toFixed(1)}%
-          </span>
+          {needsImprovementPercentage > 0 && (
+            <span className="quality-progress-bar__label">
+              {needsImprovementPercentage.toFixed(1)}%
+            </span>
+          )}
         </div>
       </div>
     </div>

@@ -43,6 +43,28 @@ export async function fetchAllApplications(
           }
           provider
           providerExternalId
+          webpageUrl
+          category
+          pricingType
+          hostingType
+          relApplicationToITComponent {
+            edges {
+              node {
+                factSheet {
+                  ... on ITComponent {
+                    deprecated
+                    collectionStatus
+                    lifecycle {
+                      phases {
+                        phase
+                        startDate
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
           collectionStatus
           deprecated
         }
@@ -67,6 +89,17 @@ export async function fetchAllApplications(
         siId: edge.node.siId?.externalId || null,
         provider: edge.node.provider || null,
         providerExternalId: edge.node.providerExternalId || null,
+        webpageUrl: edge.node.webpageUrl || null,
+        category: edge.node.category || null,
+        pricingType: edge.node.pricingType || null,
+        hostingType: edge.node.hostingType || null,
+        relITComponentToApplication: edge.node.relApplicationToITComponent?.edges?.map((e: any) => ({
+          factSheet: {
+            deprecated: e.node.factSheet?.deprecated || null,
+            collectionStatus: e.node.factSheet?.collectionStatus || null,
+            lifecycle: e.node.factSheet?.lifecycle || null
+          }
+        })) || null,
         collectionStatus: edge.node.collectionStatus,
         deprecated: edge.node.deprecated
       }))
@@ -82,15 +115,9 @@ export async function fetchAllApplications(
     hasNextPage = data.pageInfo?.hasNextPage || false;
     cursor = data.pageInfo?.endCursor || null;
 
-    // Call progress callback (deferred to not block pagination)
+    // Call progress callback
     if (onProgress) {
-      try {
-        setTimeout(() => {
-          onProgress(page, data.totalCount, [...allApplications], hasNextPage);
-        }, 0);
-      } catch (error) {
-        console.error('Progress callback error:', error);
-      }
+      onProgress(page, data.totalCount, allApplications, hasNextPage);
     }
   }
 

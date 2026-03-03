@@ -102,7 +102,7 @@
 .quality-cards-container,
 .quality-metrics-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
 }
 
@@ -128,4 +128,24 @@
 body {
   margin: 0;
   padding: 0;
+}
+
+/* Focus outlines for keyboard navigation - Accessibility */
+*:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Specific focus styles for interactive elements */
+button:focus-visible,
+[role="button"]:focus-visible,
+a:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Remove default outline to use custom focus-visible */
+*:focus:not(:focus-visible) {
+  outline: none;
 }

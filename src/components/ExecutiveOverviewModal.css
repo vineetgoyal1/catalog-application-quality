@@ -1,0 +1,112 @@
+.executive-overview-count {
+  margin-bottom: 16px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.executive-overview-table-container {
+  max-height: 600px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.executive-overview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.executive-overview-table thead {
+  position: sticky;
+  top: 0;
+  background-color: #f9fafb;
+  z-index: 10;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.executive-overview-table th {
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.executive-overview-table th.app-name-col {
+  min-width: 120px;
+  max-width: 120px;
+  position: sticky;
+  left: 0;
+  background-color: #f9fafb;
+  z-index: 11;
+}
+
+.executive-overview-table th.factor-col {
+  text-align: center;
+  min-width: 70px;
+}
+
+.executive-overview-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.executive-overview-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+.executive-overview-table td {
+  padding: 10px 8px;
+}
+
+.executive-overview-table td.app-name-cell {
+  font-weight: 500;
+  color: #111827;
+  min-width: 120px;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: sticky;
+  left: 0;
+  background-color: white;
+  z-index: 5;
+}
+
+.executive-overview-table tbody tr:hover td.app-name-cell {
+  background-color: #f3f4f6;
+}
+
+.executive-overview-table td.factor-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.check-icon {
+  display: inline-block;
+  color: #059669;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.cross-icon {
+  display: inline-block;
+  color: #dc2626;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.loading-indicator {
+  padding: 16px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Focus styles for keyboard navigation */
+.executive-overview-table tbody tr:focus-within {
+  background-color: #dbeafe;
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+}
