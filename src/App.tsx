@@ -47,10 +47,11 @@ function App() {
         // 4. Fetch data progressively
         const data = await fetchAllApplications((_page, _total, current, hasMore) => {
           setLoadingProgress(hasMore ? 'Loading more...' : 'Finalizing...');
-          setApplications(current);
+          // Don't update during pagination - only at the end
         });
 
         // 5. Final update
+        console.log(`Final data loaded: ${data.length} applications`);
         setApplications(data);
         setLoadingProgress('Finalizing...');
         await new Promise(resolve => setTimeout(resolve, 300));
