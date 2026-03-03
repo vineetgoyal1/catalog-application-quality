@@ -1,6 +1,6 @@
 {
   "name": "catalog-application-quality",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

@@ -45,7 +45,7 @@ function App() {
         setIsDataLoading(true);
 
         // 4. Fetch data progressively
-        const data = await fetchAllApplications((_page, _total, current, hasMore) => {
+        const data = await fetchAllApplications((_page, _total, _current, hasMore) => {
           setLoadingProgress(hasMore ? 'Loading more...' : 'Finalizing...');
           // Don't update during pagination - only at the end
         });
