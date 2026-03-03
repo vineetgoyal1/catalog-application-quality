@@ -45,12 +45,13 @@ function App() {
         setIsDataLoading(true);
 
         // 4. Fetch data progressively
-        const data = await fetchAllApplications((_page, _total, _current, hasMore) => {
+        const data = await fetchAllApplications((_page, _total, current, hasMore) => {
           setLoadingProgress(hasMore ? 'Loading more...' : 'Finalizing...');
-          // Don't update during pagination - only at the end
+          // Force new array reference so React detects the change
+          setApplications([...current]);
         });
 
-        // 5. Final update
+        // 5. Final update (ensure complete dataset is set)
         console.log(`Final data loaded: ${data.length} applications`);
         setApplications(data);
         setLoadingProgress('Finalizing...');
