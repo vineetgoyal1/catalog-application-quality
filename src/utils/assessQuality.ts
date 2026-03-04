@@ -1,5 +1,6 @@
 import type { Application, ApplicationQuality, QualityMetrics } from '../types/application.types';
 import { hasApplicationSubTypeQuality } from './categoryCheck';
+import { assessDescriptionQuality } from './descriptionQuality';
 import { hasHostingTypeQuality } from './hostingTypeCheck';
 import { hasITComponentQuality } from './itComponentCheck';
 import { hasITComponentActiveDateQuality } from './itComponentActiveDateCheck';
@@ -7,87 +8,110 @@ import { hasPricingTypeQuality } from './pricingTypeCheck';
 import { hasProviderQuality } from './providerCheck';
 import { hasSiId } from './siidCheck';
 import { hasWebpageUrlQuality } from './webpageUrlCheck';
-import { countWords, isGoodDescriptionQuality } from './wordCount';
+import { countWords } from './wordCount';
 
 /**
  * Assess quality of applications and return structured metrics
+ *
+ * Performance optimized: Single pass through data to populate all categories
  */
 export function assessApplicationQuality(applications: Application[]): QualityMetrics {
-  // 1. Assess each application
-  const assessed: ApplicationQuality[] = applications.map(app => ({
-    ...app,
-    wordCount: countWords(app.description),
-    isGoodDescriptionQuality: isGoodDescriptionQuality(app.description),
-    hasSiIdQuality: hasSiId(app.siId),
-    hasProviderQuality: hasProviderQuality(app.provider, app.providerExternalId),
-    hasWebpageUrlQuality: hasWebpageUrlQuality(app.webpageUrl),
-    hasApplicationSubTypeQuality: hasApplicationSubTypeQuality(app.category),
-    hasPricingTypeQuality: hasPricingTypeQuality(app.pricingType),
-    hasHostingTypeQuality: hasHostingTypeQuality(app.hostingType),
-    hasITComponentQuality: hasITComponentQuality(app.relITComponentToApplication),
-    hasITComponentActiveDateQuality: hasITComponentActiveDateQuality(app.relITComponentToApplication)
-  }));
+  // Initialize result structure
+  const descriptionGood: ApplicationQuality[] = [];
+  const descriptionNeedsImprovement: ApplicationQuality[] = [];
+  const siidGood: ApplicationQuality[] = [];
+  const siidNeedsImprovement: ApplicationQuality[] = [];
+  const providerGood: ApplicationQuality[] = [];
+  const providerNeedsImprovement: ApplicationQuality[] = [];
+  const webpageUrlGood: ApplicationQuality[] = [];
+  const webpageUrlNeedsImprovement: ApplicationQuality[] = [];
+  const applicationSubTypeGood: ApplicationQuality[] = [];
+  const applicationSubTypeNeedsImprovement: ApplicationQuality[] = [];
+  const pricingTypeGood: ApplicationQuality[] = [];
+  const pricingTypeNeedsImprovement: ApplicationQuality[] = [];
+  const hostingTypeGood: ApplicationQuality[] = [];
+  const hostingTypeNeedsImprovement: ApplicationQuality[] = [];
+  const itComponentGood: ApplicationQuality[] = [];
+  const itComponentNeedsImprovement: ApplicationQuality[] = [];
+  const itComponentActiveDateGood: ApplicationQuality[] = [];
+  const itComponentActiveDateNeedsImprovement: ApplicationQuality[] = [];
 
-  // 2. Separate by quality - Description
-  const descriptionGood = assessed.filter(app => app.isGoodDescriptionQuality);
-  const descriptionNeedsImprovement = assessed.filter(app => !app.isGoodDescriptionQuality);
+  const overview = { perfect: 0, good: 0, fair: 0, needsWork: 0 };
 
-  // 3. Separate by quality - SIID
-  const siidGood = assessed.filter(app => app.hasSiIdQuality);
-  const siidNeedsImprovement = assessed.filter(app => !app.hasSiIdQuality);
+  // Single pass: assess each application and categorize in one iteration
+  applications.forEach(app => {
+    // Assess description quality with 4 factors
+    const descQuality = assessDescriptionQuality(app.description);
 
-  // 4. Separate by quality - Provider
-  const providerGood = assessed.filter(app => app.hasProviderQuality);
-  const providerNeedsImprovement = assessed.filter(app => !app.hasProviderQuality);
+    const assessed: ApplicationQuality = {
+      ...app,
+      wordCount: countWords(app.description),
+      isGoodDescriptionQuality: descQuality.isGoodQuality, // All 4 factors must pass
+      descriptionQualityDetails: {
+        hasMinimumWordCount: descQuality.hasMinimumWordCount,
+        hasFunctionalVerbs: descQuality.hasFunctionalVerbs,
+        hasTargetUsersOrUseCases: descQuality.hasTargetUsersOrUseCases,
+        hasApplicationIdentity: descQuality.hasApplicationIdentity,
+        factorsPassed: descQuality.factorsPassed
+      },
+      hasSiIdQuality: hasSiId(app.siId),
+      hasProviderQuality: hasProviderQuality(app.provider, app.providerExternalId),
+      hasWebpageUrlQuality: hasWebpageUrlQuality(app.webpageUrl),
+      hasApplicationSubTypeQuality: hasApplicationSubTypeQuality(app.category),
+      hasPricingTypeQuality: hasPricingTypeQuality(app.pricingType),
+      hasHostingTypeQuality: hasHostingTypeQuality(app.hostingType),
+      hasITComponentQuality: hasITComponentQuality(app.relITComponentToApplication),
+      hasITComponentActiveDateQuality: hasITComponentActiveDateQuality(app.relITComponentToApplication)
+    };
 
-  // 5. Separate by quality - Webpage URL
-  const webpageUrlGood = assessed.filter(app => app.hasWebpageUrlQuality);
-  const webpageUrlNeedsImprovement = assessed.filter(app => !app.hasWebpageUrlQuality);
+    // Categorize into good/needs improvement arrays (avoids 9 separate filter() passes later)
+    if (assessed.isGoodDescriptionQuality) descriptionGood.push(assessed);
+    else descriptionNeedsImprovement.push(assessed);
 
-  // 6. Separate by quality - Application Sub Type
-  const applicationSubTypeGood = assessed.filter(app => app.hasApplicationSubTypeQuality);
-  const applicationSubTypeNeedsImprovement = assessed.filter(app => !app.hasApplicationSubTypeQuality);
+    if (assessed.hasSiIdQuality) siidGood.push(assessed);
+    else siidNeedsImprovement.push(assessed);
 
-  // 7. Separate by quality - Pricing Type
-  const pricingTypeGood = assessed.filter(app => app.hasPricingTypeQuality);
-  const pricingTypeNeedsImprovement = assessed.filter(app => !app.hasPricingTypeQuality);
+    if (assessed.hasProviderQuality) providerGood.push(assessed);
+    else providerNeedsImprovement.push(assessed);
 
-  // 8. Separate by quality - Hosting Type
-  const hostingTypeGood = assessed.filter(app => app.hasHostingTypeQuality);
-  const hostingTypeNeedsImprovement = assessed.filter(app => !app.hasHostingTypeQuality);
+    if (assessed.hasWebpageUrlQuality) webpageUrlGood.push(assessed);
+    else webpageUrlNeedsImprovement.push(assessed);
 
-  // 9. Separate by quality - IT Component
-  const itComponentGood = assessed.filter(app => app.hasITComponentQuality);
-  const itComponentNeedsImprovement = assessed.filter(app => !app.hasITComponentQuality);
+    if (assessed.hasApplicationSubTypeQuality) applicationSubTypeGood.push(assessed);
+    else applicationSubTypeNeedsImprovement.push(assessed);
 
-  // 10. Separate by quality - IT Component Active Date
-  const itComponentActiveDateGood = assessed.filter(app => app.hasITComponentActiveDateQuality);
-  const itComponentActiveDateNeedsImprovement = assessed.filter(app => !app.hasITComponentActiveDateQuality);
+    if (assessed.hasPricingTypeQuality) pricingTypeGood.push(assessed);
+    else pricingTypeNeedsImprovement.push(assessed);
 
-  // 11. Calculate overall quality distribution (9 factors)
-  const overview = assessed.reduce((acc, app) => {
+    if (assessed.hasHostingTypeQuality) hostingTypeGood.push(assessed);
+    else hostingTypeNeedsImprovement.push(assessed);
+
+    if (assessed.hasITComponentQuality) itComponentGood.push(assessed);
+    else itComponentNeedsImprovement.push(assessed);
+
+    if (assessed.hasITComponentActiveDateQuality) itComponentActiveDateGood.push(assessed);
+    else itComponentActiveDateNeedsImprovement.push(assessed);
+
+    // Calculate overall quality distribution (9 factors)
     const factorsPassed = [
-      app.isGoodDescriptionQuality,
-      app.hasSiIdQuality,
-      app.hasProviderQuality,
-      app.hasWebpageUrlQuality,
-      app.hasApplicationSubTypeQuality,
-      app.hasPricingTypeQuality,
-      app.hasHostingTypeQuality,
-      app.hasITComponentQuality,
-      app.hasITComponentActiveDateQuality
+      assessed.isGoodDescriptionQuality,
+      assessed.hasSiIdQuality,
+      assessed.hasProviderQuality,
+      assessed.hasWebpageUrlQuality,
+      assessed.hasApplicationSubTypeQuality,
+      assessed.hasPricingTypeQuality,
+      assessed.hasHostingTypeQuality,
+      assessed.hasITComponentQuality,
+      assessed.hasITComponentActiveDateQuality
     ].filter(Boolean).length;
 
-    if (factorsPassed === 9) acc.perfect++;
-    else if (factorsPassed === 8) acc.good++;
-    else if (factorsPassed === 7) acc.fair++;
-    else if (factorsPassed === 5 || factorsPassed === 4 || factorsPassed === 3 || factorsPassed === 2 || factorsPassed === 1) acc.needsWork++;
-    else acc.needsWork++;
+    if (factorsPassed === 9) overview.perfect++;
+    else if (factorsPassed === 8) overview.good++;
+    else if (factorsPassed === 7) overview.fair++;
+    else overview.needsWork++; // 6 or fewer factors
+  });
 
-    return acc;
-  }, { perfect: 0, good: 0, fair: 0, needsWork: 0 });
-
-  // 11. Return structured metrics
+  // Return structured metrics
   return {
     description: {
       good: descriptionGood,

@@ -1,14 +1,15 @@
-# LeanIX Custom Report
+# Catalog Application Quality Report
 
-A minimal custom report starter template showcasing LeanIX Reporting SDK basics.
+A comprehensive LeanIX custom report that analyzes and visualizes application data quality across 9 quality factors.
 
 ## Features
 
-- Fetches Applications from LeanIX workspace
-- Groups applications by business criticality level
-- Displays interactive bar chart with Chart.js
-- Clean separation of concerns (UI, visualization)
-- TypeScript for type safety
+- **Multi-Factor Quality Assessment**: Evaluates applications across 9 key quality dimensions
+- **4-Factor Description Quality**: Advanced description assessment using word count, functional verbs, target users, and application identity
+- **Interactive Drill-Down**: Click any metric to see detailed breakdowns with actionable insights
+- **Executive Overview**: Applications tiered by quality (Perfect/Good/Fair/Needs Work)
+- **Real-Time Data**: Fetches and analyzes applications from LeanIX workspace
+- **TypeScript**: Full type safety throughout the application
 
 ## Development
 

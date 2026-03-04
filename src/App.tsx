@@ -161,10 +161,10 @@ function App() {
 
         <div className="quality-cards-container">
         <QualityProgressBar
-          title="Description Quality"
-          subtitle="Application descriptions (>20 words)"
-          goodLabel="Good quality"
-          needsImprovementLabel="Can improve"
+          title="Description"
+          subtitle="4 factors: Word count (≥20), Functional verbs, Target users, App identity"
+          goodLabel="Good Description"
+          needsImprovementLabel="Needs Improvement"
           goodCount={qualityMetrics.description.good.length}
           needsImprovementCount={qualityMetrics.description.needsImprovement.length}
           onClickNeedsImprovement={() => setIsDescriptionModalOpen(true)}
@@ -256,8 +256,8 @@ function App() {
         isOpen={isDescriptionModalOpen}
         onClose={() => setIsDescriptionModalOpen(false)}
         applications={qualityMetrics.description.needsImprovement}
-        title="Applications with Poor Descriptions"
-        subtitle={`${qualityMetrics.description.needsImprovement.length} applications with ≤20 words`}
+        title="Applications Needing Description Improvement"
+        subtitle="applications missing one or more criteria: Word Count (≥20), Functional Verbs, Target Users, Application Identity"
         mode="description"
         workspaceHost={workspaceHost}
       />

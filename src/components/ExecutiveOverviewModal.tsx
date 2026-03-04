@@ -30,7 +30,7 @@ const TIER_CONFIG = {
 };
 
 const QUALITY_FACTORS = [
-  { key: 'isGoodDescriptionQuality', label: 'Desc', tooltip: 'Description Quality (>20 words)' },
+  { key: 'isGoodDescriptionQuality', label: 'Desc', tooltip: 'Description Quality (4 factors: Word count ≥20, Functional verbs, Target users, App identity)' },
   { key: 'hasSiIdQuality', label: 'SIID', tooltip: 'SIID Presence' },
   { key: 'hasProviderQuality', label: 'Provider', tooltip: 'Provider Information' },
   { key: 'hasWebpageUrlQuality', label: 'URL', tooltip: 'Webpage URL' },

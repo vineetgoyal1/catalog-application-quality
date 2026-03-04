@@ -33,8 +33,26 @@ export function DrillDownModal({
     );
   }, [applications, searchTerm]);
 
+  // Dynamic subtitle with filtered count
+  const dynamicSubtitle = `${filteredApplications.length} of ${applications.length} ${subtitle}`;
+
   return (
-    <SimpleModal isOpen={isOpen} onClose={onClose} title={title} subtitle={subtitle}>
+    <SimpleModal isOpen={isOpen} onClose={onClose} title={title} subtitle={dynamicSubtitle}>
+      {/* Criteria explanation for description mode */}
+      {mode === 'description' && (
+        <div className="criteria-explanation">
+          <div className="criteria-item">
+            <strong>Functional Verbs:</strong> Action words describing what the application does <span className="criteria-examples">(e.g., "allows users to", "tracks projects", "enables teams to")</span>
+          </div>
+          <div className="criteria-item">
+            <strong>Target Users:</strong> Who uses the application or what it's used for <span className="criteria-examples">(e.g., "used by teams", "for project management", "helps developers")</span>
+          </div>
+          <div className="criteria-item">
+            <strong>Application Identity:</strong> Explicitly identifies as a software product <span className="criteria-examples">(e.g., "application", "software", "tool")</span>
+          </div>
+        </div>
+      )}
+
       <div className="drilldown-search">
         <input
           type="text"
@@ -45,16 +63,20 @@ export function DrillDownModal({
         />
       </div>
 
-      <div className="drilldown-count">
-        Showing {filteredApplications.length} of {applications.length} applications
-      </div>
-
       <div className="drilldown-table-container">
         <table className="drilldown-table">
           <thead>
             <tr>
-              <th>Application Name</th>
-              {mode === 'description' && <th>Word Count</th>}
+              <th className="app-name-col">Application Name</th>
+              {mode === 'description' && (
+                <>
+                  <th className="description-col">Description</th>
+                  <th className="factor-col" title="Word Count (≥20)">Wrds</th>
+                  <th className="factor-col" title="Functional Verbs">Vrbs</th>
+                  <th className="factor-col" title="Target Users/Use Cases">Usrs</th>
+                  <th className="factor-col" title="Application Identity">Ident</th>
+                </>
+              )}
               {mode === 'siid' && <th>SIID Status</th>}
               {mode === 'provider' && (
                 <>
@@ -73,22 +95,59 @@ export function DrillDownModal({
           <tbody>
             {filteredApplications.map((app) => (
               <tr key={app.id}>
-                <td>
-                  {workspaceHost ? (
-                    <a
-                      href={`https://${workspaceHost}/factsheet/Application/${app.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="app-link"
-                    >
-                      {app.displayName}
-                    </a>
-                  ) : (
-                    <span>{app.displayName}</span>
-                  )}
+                <td className="app-name-col">
+                  <div className="app-name-text">
+                    {workspaceHost ? (
+                      <a
+                        href={`https://${workspaceHost}/factsheet/Application/${app.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="app-link"
+                        title={app.displayName}
+                      >
+                        {app.displayName}
+                      </a>
+                    ) : (
+                      <span title={app.displayName}>{app.displayName}</span>
+                    )}
+                  </div>
                 </td>
                 {mode === 'description' && (
-                  <td className="word-count-cell">{app.wordCount} words</td>
+                  <>
+                    <td className="description-col">
+                      <div className="description-text" title={app.description || ''}>
+                        {app.description || '-'}
+                      </div>
+                    </td>
+                    <td className="factor-col">
+                      {app.descriptionQualityDetails?.hasMinimumWordCount ? (
+                        <span className="check-icon" title={`${app.wordCount} words`} aria-label={`Passes word count check with ${app.wordCount} words`} role="img">✓</span>
+                      ) : (
+                        <span className="cross-icon" title={`${app.wordCount} words (need ≥20)`} aria-label={`Fails word count check with ${app.wordCount} words (need 20 or more)`} role="img">✗</span>
+                      )}
+                    </td>
+                    <td className="factor-col">
+                      {app.descriptionQualityDetails?.hasFunctionalVerbs ? (
+                        <span className="check-icon" title="Has functional verbs" aria-label="Passes functional verbs check" role="img">✓</span>
+                      ) : (
+                        <span className="cross-icon" title="Missing functional verbs" aria-label="Fails functional verbs check" role="img">✗</span>
+                      )}
+                    </td>
+                    <td className="factor-col">
+                      {app.descriptionQualityDetails?.hasTargetUsersOrUseCases ? (
+                        <span className="check-icon" title="Has target users or use cases" aria-label="Passes target users check" role="img">✓</span>
+                      ) : (
+                        <span className="cross-icon" title="Missing target users or use cases" aria-label="Fails target users check" role="img">✗</span>
+                      )}
+                    </td>
+                    <td className="factor-col">
+                      {app.descriptionQualityDetails?.hasApplicationIdentity ? (
+                        <span className="check-icon" title="Has application identity" aria-label="Passes application identity check" role="img">✓</span>
+                      ) : (
+                        <span className="cross-icon" title="Missing application identity" aria-label="Fails application identity check" role="img">✗</span>
+                      )}
+                    </td>
+                  </>
                 )}
                 {mode === 'siid' && (
                   <td className="word-count-cell">

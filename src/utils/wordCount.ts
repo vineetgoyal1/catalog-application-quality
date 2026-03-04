@@ -17,10 +17,3 @@ export function countWords(text: string | null | undefined): number {
 
   return words.length;
 }
-
-/**
- * Check if description quality is good (>20 words)
- */
-export function isGoodDescriptionQuality(description: string | null | undefined): boolean {
-  return countWords(description) > 20;
-}

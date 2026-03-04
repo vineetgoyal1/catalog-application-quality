@@ -28,6 +28,14 @@ export interface Application {
 export interface ApplicationQuality extends Application {
   wordCount: number;
   isGoodDescriptionQuality: boolean;
+  // Detailed description quality breakdown
+  descriptionQualityDetails?: {
+    hasMinimumWordCount: boolean;
+    hasFunctionalVerbs: boolean;
+    hasTargetUsersOrUseCases: boolean;
+    hasApplicationIdentity: boolean;
+    factorsPassed: number;
+  };
   hasSiIdQuality: boolean;
   hasProviderQuality: boolean;
   hasWebpageUrlQuality: boolean;
