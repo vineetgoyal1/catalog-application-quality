@@ -87,7 +87,7 @@ export function DrillDownModal({
               {mode === 'webpageUrl' && <th>Webpage URL Status</th>}
               {mode === 'applicationSubType' && <th>Category</th>}
               {mode === 'pricingType' && <th>Pricing Type</th>}
-              {mode === 'hostingType' && <th>Hosting Type</th>}
+              {mode === 'hostingType' && <th className="hosting-type-header">Hosting Type</th>}
               {mode === 'itComponent' && <th>IT Component Status</th>}
               {mode === 'itComponentActiveDate' && <th>Active Date Status</th>}
             </tr>
@@ -194,7 +194,7 @@ export function DrillDownModal({
                   </td>
                 )}
                 {mode === 'hostingType' && (
-                  <td className="word-count-cell">
+                  <td className="hosting-type-cell">
                     {app.hostingType ? (
                       <span>{app.hostingType}</span>
                     ) : (

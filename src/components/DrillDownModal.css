@@ -176,3 +176,15 @@
   text-decoration: underline;
   color: #2563eb;
 }
+
+/* Hosting Type column - right aligned */
+.drilldown-table th.hosting-type-header {
+  text-align: right;
+}
+
+.drilldown-table td.hosting-type-cell {
+  text-align: right;
+  color: #6b7280;
+  font-size: 13px;
+  width: 150px;
+}
